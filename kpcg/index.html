@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kovai Property Consultant</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-dark: #121212;
+            --secondary-dark: #1e1e1e;
+            --accent-gold: #a38354;
+            --accent-gold-light: #c7a77d;
+            --text-light: #e5e5e5;
+            --text-gray: #a8a8a8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Merriweather', serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevents horizontal scroll from mobile menu */
+        }
+
+        h1, h2, h3 {
+            font-family: 'EB Garamond', serif;
+            color: var(--text-light);
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-gold);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--accent-gold-light);
+        }
+
+        /* Navbar */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+        
+        .main-header.scrolled {
+            background: rgba(18, 18, 18, 0.98);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo img {
+            height: 3.5rem;
+        }
+
+        nav a {
+            margin: 0 1rem;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-gold-light);
+        }
+
+        .cta {
+            padding: 0.5rem 1.5rem;
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            font-weight: bold;
+            border-radius: 2rem;
+            transition: transform 0.3s, background 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            background: var(--accent-gold-light);
+            color: var(--primary-dark); 
+        }
+
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        /* Mobile Navigation Overlay */
+        .mobile-nav {
+            display: none;
+        }
+
+        .mobile-nav.active {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(18, 18, 18, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .mobile-nav a {
+            font-size: 1.8rem;
+            margin: 1.5rem 0;
+            color: var(--text-light);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            padding-bottom: 5rem;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8));
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            padding: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-gray);
+            font-weight: 300;
+        }
+
+        .btn {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            font-weight: bold;
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
+            margin: 0.5rem;
+            display: inline-block;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s, color 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            background: var(--accent-gold-light);
+            box-shadow: 0 8px 20px rgba(163, 131, 84, 0.4);
+            color: var(--primary-dark); 
+        }
+        
+        .btn.btn-secondary {
+            background: transparent;
+            color: var(--accent-gold);
+            border: 2px solid var(--accent-gold);
+            box-shadow: none;
+        }
+
+        .btn.btn-secondary:hover {
+            background: rgba(163, 131, 84, 0.2);
+            box-shadow: 0 0 15px rgba(163, 131, 84, 0.4);
+            color: var(--accent-gold-light); 
+        }
+
+        /* General Sections & Animations */
+        section {
+            padding: 5rem 5%;
+            text-align: center;
+        }
+        
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(2rem);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Finder Section */
+        .finder-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: auto;
+            padding: 2rem;
+            background: var(--secondary-dark);
+            border-radius: 1rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .finder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .finder-container select,
+        .finder-container input,
+        .finder-container button {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--accent-gold);
+            border-radius: 0.5rem;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .finder-container button {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            font-weight: bold;
+            border: none;
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .finder-container button:hover {
+            background: var(--accent-gold-light);
+            transform: translateY(-2px);
+        }
+
+        /* About */
+        .about {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+            text-align: left;
+        }
+
+        .about img {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 1rem;
+            max-width: 500px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .about div {
+            flex: 1.5;
+            color: var(--text-gray);
+        }
+        
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            background: var(--secondary-dark);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(163, 131, 84, 0.3);
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat h3 {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--secondary-dark);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-0.5rem);
+            border-color: var(--accent-gold-light);
+            box-shadow: 0 8px 16px rgba(163, 131, 84, 0.2), 0 0 15px rgba(163, 131, 84, 0.1);
+        }
+        
+        /* Add space and color to heading in Service Cards */
+        .services-grid .card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        /* Properties */
+        .prop-card {
+            background: var(--secondary-dark);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid transparent;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        .prop-card:hover {
+            transform: translateY(-0.5rem);
+            border-color: var(--accent-gold);
+            box-shadow: 0 10px 25px rgba(163, 131, 84, 0.3);
+        }
+
+        .prop-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .prop-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .prop-card div {
+            padding: 1.5rem;
+            color: var(--text-gray);
+            text-align: left;
+        }
+
+        .prop-card div h3 {
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Why */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .why-grid div {
+            background: var(--secondary-dark);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--accent-gold);
+            font-weight: 500;
+            box-shadow:0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        
+        .why-grid div:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-gold-light);
+            box-shadow: 0 8px 16px rgba(163, 131, 84, 0.2), 0 0 15px rgba(163, 131, 84, 0.1);
+        }
+        
+        /* Add space and color to heading in Why Choose Us cards */
+        .why-grid div h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        /* Testimonials */
+        .carousel {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+            background: var(--secondary-dark);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(163, 131, 84, 0.5);
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .review {
+            min-width: 100%;
+            padding: 1rem;
+            font-style: italic;
+            color: var(--text-gray);
+            text-align: left;
+        }
+
+        .carousel-buttons {
+            margin-top: 1.5rem;
+        }
+
+        .carousel-buttons button {
+            margin: 0 0.5rem;
+            padding: 0.6rem 1rem;
+            border: none;
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            font-weight: bold;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-buttons button:hover {
+            background: var(--accent-gold-light);
+        }
+
+        /* Enquiry Form */
+        form {
+            max-width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--secondary-dark);
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        form input,
+        form select,
+        form textarea {
+            padding: 0.8rem;
+            border: 1px solid var(--accent-gold);
+            border-radius: 0.5rem;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            outline: none;
+        }
+        
+        form input::placeholder,
+        form textarea::placeholder {
+            color: var(--text-gray);
+        }
+        
+        .btn[disabled] {
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        form button {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            font-weight: bold;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        form button:hover {
+            background: var(--accent-gold-light);
+        }
+
+        /* Contact */
+        .contact-info p {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .contact-info span.icon {
+            color: var(--accent-gold);
+            margin-right: 0.5rem;
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            margin-top: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: var(--text-gray);
+            padding: 2.5rem 5%;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--accent-gold);
+            margin: 0 0.5rem;
+        }
+
+        /* Floating Buttons */
+        .whatsapp,
+        .back-to-top {
+            position: fixed;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            padding: 0.8rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .whatsapp {
+            bottom: 1.5rem;
+            background: #25D366;
+            color: #fff;
+        }
+
+        .back-to-top {
+            bottom: 5rem;
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            display: none;
+        }
+
+        .whatsapp:hover, .back-to-top:hover {
+            transform: translateY(-0.3rem);
+        }
+
+        /* Pop-up Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: var(--secondary-dark);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s;
+        }
+
+        .popup-overlay.show .popup-content {
+            transform: scale(1);
+        }
+
+        .popup-content .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .popup-content .close-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .popup-content h3 {
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .popup-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-gray);
+        }
+
+        .popup-form-wrapper {
+            /* Flex container for content and success message */
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .popup-content form {
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            gap: 0.75rem;
+            /* Flex item to be toggled */
+            display: flex;
+        }
+
+        #popupSuccessMessage {
+            display: none; /* Hidden by default */
+            padding-top: 20px;
+        }
+
+
+        .popup-content form input {
+            background: var(--primary-dark);
+            border-color: var(--text-gray);
+        }
+        
+        .popup-content form button {
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-wrap: wrap;
+                padding: 1rem 5%;
+            }
+            nav {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .cta {
+                display: none;
+            }
+            h1 {
+                font-size: 3rem;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+            .hero-content {
+                padding: 1rem;
+            }
+            .about {
+                flex-direction: column;
+                text-align: center;
+            }
+            .about img {
+                width: 100%;
+                max-width: none;
+            }
+            .finder-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo"><img src="kpc svg_1.svg" alt="Kovai Property Consultant company logo" loading="lazy"></div>
+        <nav class="desktop-nav">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#properties">Properties</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <a href="#enquiry" class="cta">Enquire</a>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <div class="mobile-nav" id="mobileNav">
+        <button class="close-btn" aria-label="Close menu">×</button>
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#properties">Properties</a>
+        <a href="#contact">Contact</a>
+        <a href="#enquiry" class="btn cta">Enquire</a>
+    </div>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Find Your Dream Property in Coimbatore</h1>
+            <p>Exclusive villas • Premium flats • Transparent deals</p>
+            <a href="#finder" class="btn">Find Property</a>
+            <a href="#enquiry" class="btn btn-secondary">List Property</a>
+        </div>
+    </section>
+
+    
+
+    <section class="about fade-in-section" id="about">
+        <div>
+            <h2>Who We Are</h2>
+            <p>At Kovai Property Consultant, we believe that buying or selling property should be simple, transparent, and stress-free. Based in Coimbatore, we are a trusted real estate advisory firm dedicated to helping clients buy, sell, rent, and invest with complete confidence.
+Our team specializes in offering verified listings, honest guidance, and end-to-end support—ensuring that every transaction is smooth, secure, and beneficial. Whether you’re a first-time buyer, a seasoned investor, or someone looking to sell, we provide tailored solutions that put your interests first.
+</p></div>
+        <img src="download.jpg" alt="A team of professionals having a discussion in a meeting room" loading="lazy">
+    </section>
+
+    <section class="fade-in-section">
+        <h2>Our Achievements</h2>
+        <div class="stats">
+            <div class="stat"><h3>200+</h3><p>Properties Sold</p></div>
+            <div class="stat"><h3>150+</h3><p>Happy Clients</p></div>
+            <div class="stat"><h3>10+</h3><p>Years Experience</p></div>
+        </div>
+    </section>
+
+    <section id="services" class="fade-in-section">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="card">
+                <h3> Property Buying</h3>
+                
+                <p>Discover verified homes, villas, and plots across Coimbatore. From budget-friendly flats to luxury villas, we help you find the right property that suits your lifestyle and investment goals.</p>
+            </div>
+            <div class="card">
+                <h3> Property Selling</h3>
+            
+                <p>Sell your property faster with our wide network of qualified buyers. We take care of the marketing, negotiations, and documentation, ensuring a smooth selling experience.</p>
+            </div>
+            <div class="card">
+                <h3> Rental & Leasing</h3>
+                
+                <p>Need a home to rent or an office space to lease? We make the process easy by connecting tenants and owners with quick, reliable, and hassle-free solutions.</p>
+            </div>
+            <div class="card">
+                <h3> Property Advisory</h3>
+            
+                <p>From property valuation to legal checks and documentation, our advisory services ensure that every deal is safe, transparent, and compliant with all regulations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="properties" class="fade-in-section">
+        <h2>Featured Properties</h2>
+        <div class="properties-grid">
+            <div class="prop-card">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="A modern luxury villa with a pool" loading="lazy">
+                <div><h3>Luxury Villa/House</h3><p>₹1.2 Cr • RS Puram</p></div>
+            </div>
+            <div class="prop-card">
+                <img src="https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=800&q=80" alt="An apartment living room with modern furniture" loading="lazy">
+                <div><h3>Modern Flat/Apartment</h3><p>₹55L • Saravanampatti</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="fade-in-section">
+        <h2>Why Clients Trust Us</h2>
+        <p>At Kovai Property Consultant, we don’t just connect people with properties—we build trust with every deal. Here’s why our clients choose us again and again:</p> 
+        <div class="why-grid">
+            <div>
+                <h3> Verified Deals</h3>
+
+                <p>Every property we showcase is verified for authenticity, ensuring zero surprises and complete transparency.</p>
+            </div>
+            <div>
+                <h3>Local Marketing Expertise</h3>
+
+                <p>With years of experience in Coimbatore’s real estate market, we provide valuable insights to help you make the right decision.</p>
+            </div>
+            <div>
+                <h3>Hassle-Free Documentation</h3>
+
+                <p>From property valuation to legal paperwork, we simplify the documentation process so you can focus on your goals.</p>
+            </div>
+            <div>
+                <h3>24/7 Customer Support</h3>
+
+                <p>Whether you’re in India or abroad, our team is always just a call or message away to assist you.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="fade-in-section">
+        <h2>What Our Clients Say</h2>
+        <div class="carousel">
+            <div class="carousel-inner" id="carouselInner">
+                <div class="review">“Found my villa in 3 weeks! Smooth process.” – Ramesh</div>
+                <div class="review">“Helped me sell my land at right price.” – Priya</div>
+                <div class="review">“Professional, transparent, and friendly team.” – Anitha</div>
+            </div>
+        </div>
+        <div class="carousel-buttons">
+            <button id="prevBtn">Prev</button>
+            <button id="nextBtn">Next</button>
+        </div>
+    </section>
+
+    <section id="enquiry" class="fade-in-section">
+        <h2>Let’s Find Your Property</h2>
+        <form id="enquiryForm" action="https://api.web3forms.com/submit" method="POST" data-disable-form>
+            <input type="hidden" name="access_key" value="18da4065-b86d-471e-a050-f824b56afe26">
+            <input type="hidden" name="subject" value="New Property Enquiry - Kovai Consultant Website">
+            
+            <input type="text" placeholder="Name" required name="Name">
+            <input type="tel" placeholder="Mobile / WhatsApp" required name="Mobile">
+            <input type="email" placeholder="Email" required name="Email">
+            <select required name="Requirement"><option>Requirement</option><option>Buy</option><option>Sell</option><option>Rent</option></select>
+            <input type="text" placeholder="Budget Range" name="Budget Range">
+            <input type="text" placeholder="Preferred Location" name="Preferred Location">
+            <textarea rows="4" placeholder="Message" name="Message"></textarea>
+            <button type="submit">Submit Enquiry</button>
+        </form>
+    </section>
+
+  <section id="contact" class="fade-in-section">
+    <h2>Contact Us</h2>
+    <div class="contact-info">
+        <p><span class="icon">📍</span> Door No.1650, 2nd Floor, AAA Towers, Near Hope College,  Avinashi Road, Coimbatore - 641004</p>
+        <p><span class="icon">📞</span> <a href="tel:+918695700700">+91 8695 700 700</a></p>
+        <p><span class="icon">✉</span> <a href="mailto:info@kovaipropertyconsultant.in">info@kovaipropertyconsultant.in</a></p>
+    </div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.3533479632837!2d77.01633327572765!3d11.000378655180424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba859424859a117%3A0x89d2d0577918a24c!2sAAA%20Towers%2C%20Avinashi%20Rd%2C%20B.R.Puram%2C%20Coimbatore%2C%20Tamil%20Nadu%20641004!5e0!3m2!1sen!2sin!4v1695192080829!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</section>
+    <footer>
+        <p>© 2025 Kovai Property Consultant. All Rights Reserved.</p>
+        <p><a href="#">Instagram</a> | <a href="#">LinkedIn</a> | <a href="#">Facebook</a></p>
+    </footer>
+
+    <a href="https://wa.me/918695700700" class="whatsapp" aria-label="Chat with us on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top of the page"><i class="fas fa-arrow-up"></i></a>
+
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup-content">
+            <button class="close-btn" id="closePopupBtn" aria-label="Close form">×</button>
+            <div id="popupFormWrapper" class="popup-form-wrapper">
+                <div id="popupFormContent">
+                    <h3>Get a Call Back</h3>
+                    <p>Tell us your property needs and we'll reach out to you.</p>
+                    <form id="popupForm" action="https://api.web3forms.com/submit" method="POST" data-disable-form>
+                        <input type="hidden" name="access_key" value="18da4065-b86d-471e-a050-f824b56afe26">
+                        <input type="hidden" name="subject" value="New Call Back Request - Kovai Consultant Website">
+                        
+                        <input type="text" placeholder="Your Name" required name="Name">
+                        <input type="tel" placeholder="Mobile / WhatsApp" required name="Mobile">
+                        <button type="submit">Contact Me</button>
+                    </form>
+                </div>
+                <div id="popupSuccessMessage">
+                    <h3>Thank You!</h3>
+                    <p>Your request has been submitted successfully. We will call you back shortly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Adjust hero section padding to account for fixed header
+        function adjustHeroSection() {
+            const header = document.querySelector('.main-header');
+            const hero = document.querySelector('.hero');
+            if (header && hero) {
+                const headerHeight = header.offsetHeight;
+                hero.style.paddingTop = `${headerHeight}px`;
+            }
+        }
+        
+        window.addEventListener('load', adjustHeroSection);
+        window.addEventListener('resize', adjustHeroSection);
+
+        // Intersection Observer for scroll animations
+        const sections = document.querySelectorAll(".fade-in-section");
+        const observerOptions = {
+            root: null,
+            threshold: 0.1, 
+            rootMargin: "0px"
+        };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Dynamic Navbar on Scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Back to top button
+        window.addEventListener("scroll", () => {
+            document.getElementById("backToTop").style.display =
+                window.scrollY > 300 ? "block" : "none";
+        });
+
+        // Testimonials Carousel
+        let currentIndex = 0;
+        const reviews = document.querySelectorAll('.review');
+        const totalReviews = reviews.length;
+        const carouselInner = document.getElementById('carouselInner');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showReview() {
+            if(carouselInner) {
+                carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+        }
+
+        function nextReview() {
+            currentIndex = (currentIndex + 1) % totalReviews;
+            showReview();
+        }
+
+        function prevReview() {
+            currentIndex = (currentIndex - 1 + totalReviews) % totalReviews;
+            showReview();
+        }
+
+        // Event listeners for carousel buttons
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', prevReview);
+            nextBtn.addEventListener('click', nextReview);
+        }
+
+        // Auto-advance carousel every 5 seconds
+        if (reviews.length > 0) {
+            showReview(); // Initial call
+            setInterval(nextReview, 5000);
+        }
+
+        // --- 🛠️ FIX 3: Robust Web3Forms Submission Logic ---
+
+        /**
+         * Generic handler for all Web3Forms submissions using the Fetch API.
+         */
+        async function handleSubmit(event, successCallback, failureCallback) {
+            event.preventDefault();
+            const form = event.target;
+            const button = form.querySelector('button[type="submit"]');
+
+            const originalText = button.textContent;
+            button.disabled = true;
+            button.textContent = 'Sending...';
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    successCallback(form);
+                } else {
+                    let errorData = { message: 'Submission failed. Check your Web3Forms access key or network.' };
+                    try {
+                        const contentType = response.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            errorData = await response.json();
+                        }
+                    } catch (e) {
+                        // Ignore if response isn't JSON
+                    }
+                    failureCallback(form, errorData.message || 'Submission failed with an unknown server error.');
+                }
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                failureCallback(form, 'Network error. Could not connect to the submission service.');
+            } finally {
+                // Restore button state
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
+
+        // --- Form Submission Event Listeners ---
+        const enquiryForm = document.getElementById('enquiryForm');
+        const popupForm = document.getElementById('popupForm');
+        const popupFormContent = document.getElementById('popupFormContent');
+        const popupSuccessMessage = document.getElementById('popupSuccessMessage');
+        const popupOverlay = document.getElementById('popupOverlay');
+
+        if (enquiryForm) {
+            enquiryForm.addEventListener('submit', (e) => {
+                handleSubmit(
+                    e,
+                    (form) => { // Success Callback
+                        alert('Thank you! Your property enquiry has been sent successfully.');
+                        form.reset();
+                    },
+                    (form, message) => { // Failure Callback
+                        alert('Error sending enquiry: ' + message);
+                    }
+                );
+            });
+        }
+        
+        if (popupForm) {
+            popupForm.addEventListener('submit', (e) => {
+                handleSubmit(
+                    e,
+                    (form) => { // Success Callback
+                        // Show success message inside the modal
+                        popupFormContent.style.display = 'none';
+                        popupSuccessMessage.style.display = 'block';
+                        form.reset();
+                    },
+                    (form, message) => { // Failure Callback
+                        alert('Error submitting call back request: ' + message);
+                    }
+                );
+            });
+        }
+
+
+        // Pop-up Script
+        const closePopupBtn = document.getElementById('closePopupBtn');
+        const closeMobileNavBtn = mobileNav.querySelector('.close-btn');
+
+        // Show the pop-up after 5 seconds
+        setTimeout(() => {
+            if (popupOverlay) {
+                popupOverlay.classList.add('show');
+            }
+        }, 5000);
+
+        // Hide the pop-up when the close button is clicked
+        if (closePopupBtn && popupOverlay) {
+            closePopupBtn.addEventListener('click', () => {
+                popupOverlay.classList.remove('show');
+                // Reset form display after closing
+                setTimeout(() => {
+                    if (popupFormContent && popupSuccessMessage) {
+                        popupFormContent.style.display = 'block';
+                        popupSuccessMessage.style.display = 'none';
+                    }
+                }, 400); // Wait for fade out transition
+            });
+        }
+
+        // Hide the pop-up when the user clicks outside of the content
+        if (popupOverlay) {
+            popupOverlay.addEventListener('click', (e) => {
+                if (e.target === popupOverlay) {
+                    popupOverlay.classList.remove('show');
+                    // Reset form display after closing
+                    setTimeout(() => {
+                        if (popupFormContent && popupSuccessMessage) {
+                            popupFormContent.style.display = 'block';
+                            popupSuccessMessage.style.display = 'none';
+                        }
+                    }, 400); // Wait for fade out transition
+                }
+            });
+        }
+        
+        // Mobile Menu Script
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileNav = document.getElementById('mobileNav');
+
+        if (menuToggle && mobileNav) {
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+            });
+        }
+        
+        if (closeMobileNavBtn && mobileNav) {
+            closeMobileNavBtn.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+            });
+        }
+
+        if (mobileNav) {
+            mobileNav.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    mobileNav.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
